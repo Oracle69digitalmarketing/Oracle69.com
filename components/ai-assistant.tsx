@@ -6,21 +6,22 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MessageCircle, X, Send, Bot, User, Minimize2, Maximize2 } from "lucide-react"
+import { useChat } from '@ai-sdk/react'
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
-  const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: "bot",
-      content:
-        "Hi! I'm your AI marketing assistant. I can help you with funnel building, lead generation, SEO optimization, and more. What would you like to know?",
-      timestamp: new Date(),
-    },
-  ])
-  const [isTyping, setIsTyping] = useState(false)
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading, setInput } = useChat({
+    initialMessages: [
+      {
+        id: '1',
+        role: 'assistant',
+        content:
+          "Hi! I'm your AI marketing assistant. I can help you with funnel building, lead generation, SEO optimization, and more. What would you like to know?",
+      },
+    ],
+  })
 
   const suggestedQuestions = [
     "How can I improve my conversion rate?",
@@ -28,45 +29,6 @@ export default function AIAssistant() {
     "Help me with SEO optimization",
     "Show me lead generation strategies",
   ]
-
-  const sendMessage = async () => {
-    if (!message.trim()) return
-
-    const newMessage = {
-      id: messages.length + 1,
-      type: "user",
-      content: message,
-      timestamp: new Date(),
-    }
-
-    setMessages((prev) => [...prev, newMessage])
-    setMessage("")
-    setIsTyping(true)
-
-    // Simulate AI response
-    setTimeout(() => {
-      const responses = [
-        "Great question! Based on your needs, I'd recommend starting with our AI Funnel Builder. It can help you create high-converting funnels in minutes.",
-        "I can help you with that! Let me analyze your current setup and provide personalized recommendations.",
-        "That's a smart approach! Our SEO audit tool can identify key opportunities for improvement. Would you like me to run a quick analysis?",
-        "Excellent! Lead generation is crucial for growth. I suggest trying our Lead Magnet Generator - it's helped our users increase leads by 300% on average.",
-      ]
-
-      const botResponse = {
-        id: messages.length + 2,
-        type: "bot",
-        content: responses[Math.floor(Math.random() * responses.length)],
-        timestamp: new Date(),
-      }
-
-      setMessages((prev) => [...prev, botResponse])
-      setIsTyping(false)
-    }, 2000)
-  }
-
-  const handleSuggestedQuestion = (question: string) => {
-    setMessage(question)
-  }
 
   // Auto-open after 10 seconds
   useEffect(() => {
@@ -101,7 +63,7 @@ export default function AIAssistant() {
               <motion.div
                 className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center"
                 animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
                 <span className="text-xs text-white font-bold">1</span>
               </motion.div>
@@ -164,28 +126,28 @@ export default function AIAssistant() {
                     {messages.map((msg) => (
                       <motion.div
                         key={msg.id}
-                        className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
+                        className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
                       >
                         <div
                           className={`flex items-start space-x-2 max-w-[80%] ${
-                            msg.type === "user" ? "flex-row-reverse space-x-reverse" : ""
+                            msg.role === "user" ? "flex-row-reverse space-x-reverse" : ""
                           }`}
                         >
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                              msg.type === "user"
+                              msg.role === "user"
                                 ? "bg-blue-500 text-white"
                                 : "bg-gradient-to-r from-green-500 to-blue-500 text-white"
                             }`}
                           >
-                            {msg.type === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                            {msg.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                           </div>
                           <div
                             className={`rounded-2xl px-4 py-2 ${
-                              msg.type === "user" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-900"
+                              msg.role === "user" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-900"
                             }`}
                           >
                             <p className="text-sm">{msg.content}</p>
@@ -194,7 +156,7 @@ export default function AIAssistant() {
                       </motion.div>
                     ))}
 
-                    {isTyping && (
+                    {isLoading && (
                       <motion.div
                         className="flex justify-start"
                         initial={{ opacity: 0, y: 10 }}
@@ -226,7 +188,7 @@ export default function AIAssistant() {
                             key={index}
                             variant="outline"
                             size="sm"
-                            onClick={() => handleSuggestedQuestion(question)}
+                            onClick={() => setInput(question)}
                             className="text-xs bg-gray-50 hover:bg-gray-100 border-gray-200"
                           >
                             {question}
@@ -237,24 +199,23 @@ export default function AIAssistant() {
                   )}
 
                   {/* Input */}
-                  <div className="p-4 border-t border-gray-200 flex-shrink-0">
+                  <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 flex-shrink-0">
                     <div className="flex space-x-2">
                       <Input
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
+                        value={input}
+                        onChange={handleInputChange}
                         placeholder="Ask me anything about marketing..."
                         className="flex-1"
-                        onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                       />
                       <Button
-                        onClick={sendMessage}
-                        disabled={!message.trim() || isTyping}
+                        type="submit"
+                        disabled={!input.trim() || isLoading}
                         className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white"
                       >
                         <Send className="w-4 h-4" />
                       </Button>
                     </div>
-                  </div>
+                  </form>
                 </>
               )}
             </Card>
