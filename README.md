@@ -87,8 +87,7 @@ App Directory JSON
 
 
 
-
-**Features of this root README:**  
+## Features of this root README: 
 - GitHub-friendly overview for anyone visiting the repo  
 - Shows repo structure, getting started steps, deployment, and contribution  
 - Clearly references `/docs/` for developer-oriented instructions  
