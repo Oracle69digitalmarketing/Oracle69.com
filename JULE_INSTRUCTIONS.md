@@ -1,98 +1,34 @@
-📄 JULE_INSTRUCTIONS.md
-# Oracle69.com – Jule Deployment Instructions
+# 🚀 Jule Instructions — Oracle69.com Deployment
 
-## Objective
-Deploy Oracle69.com live with the domain `oracle69.com`.  
-- Frontend → Vercel  
-- Backend → Railway  
-- Database → Neon PostgreSQL  
-- Auth/Env → managed via `.env`
+Refine the deployment setup using the files in this repo.  
+⚠️ Do not delete any existing files.  
 
----
+## Frontend (Vercel)
+- Refine `vercel.json` as specified.
+- Deploy frontend to Vercel with domain: **oracle69.com**.
+- Ensure `/docs` folder is deployed separately to: **docs.oracle69.com**.
 
-## Steps for Jule
+## Backend (Railway)
+- Refine `railway.json` and `.env.example`.
+- Deploy backend services to Railway with domain: **api.oracle69.com**.
 
-### 1. Dependencies
-```bash
-pnpm install
+## Database (Neon + Drizzle)
+- Sync Drizzle schema with Neon PostgreSQL.
+- Run migrations to ensure schema is live.
 
-
-2. Frontend Deployment (Vercel)
-Keep all existing frontend files.
-Ensure vercel.json is present and refined:
-{
-  "version": 2,
-  "builds": [
-    { "src": "package.json", "use": "@vercel/node" },
-    { "src": "public/**/*", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
-
-Deploy:
-vercel --prod
-
-Set domain → oracle69.com.
-
-3. Backend Deployment (Railway)
-Keep existing backend logic.
-Ensure railway.json is present and refined:
-{
-  "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "pnpm install && pnpm run build"
-  },
-  "deploy": {
-    "startCommand": "pnpm run start",
-    "healthcheckPath": "/health",
-    "restartPolicyType": "ON_FAILURE"
-  }
-}
-
-Deploy:
-railway up
-
-Set domain → api.oracle69.com.
-
-4. Environment Variables
-Keep .env.example and ensure it contains:
-DATABASE_URL=your-neon-postgres-url
-NEXT_PUBLIC_API_URL=https://api.oracle69.com
-PORT=3000
-
-Jule should never overwrite .env — only refine or add missing keys.
-
-5. Database Setup
-Run migrations to sync schema:
-pnpm drizzle-kit push
-
-Confirm Neon PostgreSQL connection.
-
-6. Post-Deployment Checks
-Frontend: https://oracle69.com should serve React frontend.
-Backend: https://api.oracle69.com/health should return OK.
-Database: Drizzle ORM should read/write successfully.
-
-Notes for Jule
-Never delete existing files, only refine configurations.
-Always cache dependencies for faster builds.
-If configs conflict, extend rather than replace.
+## Post-Deployment Checks
+- ✅ oracle69.com → loads frontend
+- ✅ api.oracle69.com → responds to API
+- ✅ docs.oracle69.com → serves developer docs
+- ✅ Database schema synced + functional
 
 ---
 
-## 📄 `.env.example`  
-(Place in repo root if not already present)  
-
-```env
-DATABASE_URL=your-neon-postgres-url
-NEXT_PUBLIC_API_URL=https://api.oracle69.com
-PORT=3000
-
-
-📄 vercel.json
+📘 **Documentation Setup**
+- Developer docs live under `/docs` (MDX/Markdown format).
+- Ensure docs are auto-included in the Vercel deployment (`docs.oracle69.com`).
+- Do not overwrite existing files — refine and scaffold missing docs pages as needed.
+- Use `/docs/README.md` as entrypoint for all developer documentation.📄 vercel.json
 (Frontend config — refine only if file already exists)
 {
   "version": 2,
