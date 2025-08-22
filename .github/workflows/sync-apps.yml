@@ -1,0 +1,26 @@
+name: Sync App Directory
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "scripts/sync-apps.js"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm install node-fetch@2
+      - run: node scripts/sync-apps.js
+      - run: |
+          git config --global user.name "oracle69-bot"
+          git config --global user.email "bot@oracle69.com"
+          git add public/all-apps.json
+          git commit -m "chore: sync apps directory [skip ci]" || echo "No changes"
+          git push
