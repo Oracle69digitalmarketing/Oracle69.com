@@ -1,30 +1,95 @@
-# Oracle69.com Documentation
+# Oracle69 Ecosystem
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+Welcome to Oracle69 — a modular, scalable ecosystem of AI, SaaS, EdTech, AgriTech, HealthTech, and automation apps. This repository contains all core apps, components, and documentation for developers and contributors.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/oracle69/v0-oracle69-com-documentation)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/d50EcLFAieU)
+## 🚀 Overview
 
-## Overview
+Oracle69 combines modern web, blockchain, and AI technologies:
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+- **Frontend:** Next.js, Astro, Nuxt, React, Svelte  
+- **Progressive Web Apps (PWA):** Installable, offline-ready, mobile-first  
+- **CMS:** Storyblok for dynamic, headless content  
+- **Blockchain:** Cardano for smart contracts, identity, and NFTs  
+- **Verifiability:** XION (zkTLS, zkFetch, DocuStore) for trust-first proofs  
+- **Identity:** Meta Accounts for seamless login  
+- **Payments:** Crossmint for NFT and digital asset checkout  
 
-## Deployment
+## 📂 Repository Structure
 
-Your project is live at:
+/docs/             → Developer docs and per-app MDX pages /components/       → Frontend reusable components (AppDirectory, VerifiedCard, etc.) /public/           → Generated JSON index of all apps (all-apps.json) /scripts/          → Automation scripts (sync GitHub repos) /apps/             → Individual app directories (optional) /.github/workflows/→ GitHub Actions for automation README.md          → Root GitHub landing page
 
-**[https://vercel.com/oracle69/v0-oracle69-com-documentation](https://vercel.com/oracle69/v0-oracle69-com-documentation)**
+## 📌 Getting Started
 
-## Build your app
+1. Clone the repo:  
+```bash
+git clone https://github.com/oracle69/oracle69.com.git
+cd oracle69.com
 
-Continue building your app on:
+2. Install dependencies:
 
-**[https://v0.dev/chat/projects/d50EcLFAieU](https://v0.dev/chat/projects/d50EcLFAieU)**
 
-## How It Works
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+npm install
+
+3. Run the development server:
+
+
+
+npm run dev
+
+4. Browse the app directory at localhost:3000/apps (after running sync script or using existing all-apps.json).
+
+
+
+📖 Documentation
+
+Developer docs: /docs/README.md
+
+Per-app docs: /docs/apps/[app].mdx
+
+Automated JSON index: /public/all-apps.json
+
+
+> The /docs folder is used by Jule to generate the Oracle69 website and apps directory automatically.
+
+
+
+🧩 Contribution
+
+Fork the repo and add apps to GitHub with proper description.
+
+Add per-app MDX docs in /docs/apps/ or let Jule auto-generate them.
+
+The sync script and GitHub Action will auto-update the apps index.
+
+
+🌐 Deployment
+
+Frontend: Vercel → oracle69.com
+
+Backend: Railway → api.oracle69.com
+
+Database: Drizzle → Neon PostgreSQL
+
+
+> Post-deployment checks: ensure all apps are rendering correctly, JSON data is accessible, and links work.
+
+
+
+
+
+
+🔗 Links
+
+Docs Home
+
+App Directory JSON
+
+
+
+
+✅ **Features of this root README:**  
+- GitHub-friendly overview for anyone visiting the repo  
+- Shows repo structure, getting started steps, deployment, and contribution  
+- Clearly references `/docs/` for developer-oriented instructions  
+- Keeps everything consistent with Oracle69 branding and automation workflow  
