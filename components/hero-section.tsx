@@ -20,7 +20,7 @@ export default function HeroSection() {
       setCurrentText((prev) => (prev + 1) % heroTexts.length)
     }, 3000)
     return () => clearInterval(interval)
-  }, [])
+  }, [heroTexts.length])
 
   return (
     <section id="home" className="relative pt-20 lg:pt-32 pb-16 lg:pb-24 overflow-hidden">

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "app-one",
+    "description": "This is the first app. category:AI",
+    "url": "https://github.com/oracle69/app-one",
+    "docs": "/docs/apps/app-one.mdx",
+    "category": "AI"
+  },
+  {
+    "name": "app-two",
+    "description": "This is the second app. category:HealthTech",
+    "url": "https://github.com/oracle69/app-two",
+    "docs": "/docs/apps/app-two.mdx",
+    "category": "HealthTech"
+  }
+]
