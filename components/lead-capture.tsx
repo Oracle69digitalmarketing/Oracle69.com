@@ -64,7 +64,7 @@ export default function LeadCapture() {
                 </p>
 
                 <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-xl p-6 mb-8">
-                  <h3 className="font-semibold text-gray-900 mb-3">What's included in your toolkit:</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">What&apos;s included in your toolkit:</h3>
                   <ul className="text-left space-y-2 text-gray-700">
                     <li className="flex items-center">
                       <CheckCircle className="w-4 h-4 text-green-600 mr-2" />

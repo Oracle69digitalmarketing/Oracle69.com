@@ -1,7 +1,9 @@
-import OpenAI from 'openai';
-import { NextResponse } from 'next/server';
+import { createOpenAI } from '@ai-sdk/openai';
+import { generateObject } from 'ai';
+import { z } from 'zod';
+import {NextResponse} from "next/server";
 
-const openai = new OpenAI({
+const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -33,21 +35,18 @@ export async function POST(req: Request) {
         return new NextResponse('Invalid demoType', { status: 400 });
     }
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
-      response_format: { type: "json_object" },
+    const { object } = await generateObject({
+      model: openai('gpt-3.5-turbo'),
+      schema: z.object({
+        score: z.number(),
+        issues: z.number(),
+        improvements: z.number(),
+        traffic: z.string(),
+      }),
+      prompt,
     });
 
-    const content = response.choices[0].message.content;
-
-    if (!content) {
-      return new NextResponse('No content in response from OpenAI', { status: 500 });
-    }
-
-    // The response from the AI should be a JSON string.
-    // We parse it before sending it to the client.
-    return NextResponse.json(JSON.parse(content));
+    return NextResponse.json(object);
 
   } catch (error) {
     console.error('[INTERACTIVE_DEMO_ERROR]', error);

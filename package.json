@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.19",
     "@ai-sdk/react": "^2.0.15",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
@@ -50,6 +51,7 @@
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
     "next-themes": "latest",
+    "node-fetch": "^2.7.0",
     "openai": "^5.12.2",
     "react": "^19",
     "react-day-picker": "latest",
@@ -67,8 +69,12 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.33.0",
+    "eslint-config-next": "^15.5.0",
+    "eslint-config-prettier": "^10.1.8",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
